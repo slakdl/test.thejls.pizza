@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niels Thejls — Visual Designer</title>
+  <title>Niels Thejls</title>
 
   <style>
     * {
@@ -12,79 +12,90 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       background: red;
-      color: #fff;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10vw;
+      height: auto;
+    }
+
+    #typewriter {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-family: Arial, Helvetica, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 900px;
-      width: 100%;
-    }
-
-    .card .box {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: #111;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-
-    .card .title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .card .subtitle {
       font-size: 14px;
-      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      white-space: pre;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="grid">
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-    <div class="card">
-      <div class="box"></div>
-      <div class="title">test text</div>
-      <div class="subtitle">test text small</div>
-    </div>
-  </div>
+  <img id="logo" src="assets/Niels_Pas_Wide_compressed.png" alt="Niels Thejls">
+
+  <div id="typewriter"></div>
+
+  <script>
+    const text = "Niels Thejls\nVisual designer";
+    const el = document.getElementById('typewriter');
+    let i = 0;
+
+    function type() {
+      if (i <= text.length) {
+        el.innerHTML = text.slice(0, i).replace(/\n/g, '<br>');
+        i++;
+        setTimeout(type, 20);
+      }
+    }
+
+    type();
+  </script>
+
+  <script>
+    const logo = document.getElementById('logo');
+    let x = Math.random() * (window.innerWidth - logo.clientWidth);
+    let y = Math.random() * (window.innerHeight - logo.clientHeight);
+    let dx = 1;
+    let dy = 1;
+
+    function animate() {
+      const width = logo.clientWidth;
+      const height = logo.clientHeight;
+      const maxX = window.innerWidth - width;
+      const maxY = window.innerHeight - height;
+
+      x += dx;
+      y += dy;
+
+      if (x <= 0 || x >= maxX) {
+        dx = -dx;
+        x = Math.max(0, Math.min(x, maxX));
+      }
+      if (y <= 0 || y >= maxY) {
+        dy = -dy;
+        y = Math.max(0, Math.min(y, maxY));
+      }
+
+      logo.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
 
 </body>
 </html>
